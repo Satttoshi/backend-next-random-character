@@ -1,6 +1,13 @@
+import styled from "styled-components";
+
 import useSWR from "swr";
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+const StyledMain = styled.main`
+  display: flex;
+  flex-direction: column;
+`;
 
 export default function HomePage() {
   const { data, error, isLoading } = useSWR("/api/random-character", fetcher);
@@ -13,15 +20,19 @@ export default function HomePage() {
     return <h1>Loading ...</h1>;
   }
   return (
-    <main>
+    <StyledMain>
       <h2>
-        {data.firstName} {data.lastName}
+        {data.firstName}, {data.lastName}
       </h2>
       <p>
-        {data.age} {data.gender}
+        Age: {data.age}, Gender: {data.gender}
       </p>
-      <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">{data.twitter}</a>
+      <span>
+        Twitter:{" "}
+        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">{data.twitter}</a>
+      </span>
+
       <span>Geohash: {data.geohash}</span>
-    </main>
+    </StyledMain>
   );
 }
